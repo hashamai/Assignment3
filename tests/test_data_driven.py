@@ -7,8 +7,6 @@ import pytest
 from sms.grading import calculate_gpa
 from sms.models import Course, Enrollment
 
-pytestmark = pytest.mark.data_driven
-
 DATA = Path(__file__).parent / "data"
 ERRORS = {"ValueError": ValueError, "KeyError": KeyError}
 
@@ -18,7 +16,6 @@ def cases(filename):
         return [pytest.param(row, id=row["tc_id"]) for row in csv.DictReader(f)]
 
 
-@pytest.mark.school
 @pytest.mark.parametrize("row", cases("enter_marks_cases.csv"))
 def test_enter_marks(seeded_school, row):
     args = row["roll_no"], row["code"], float(row["marks"])
@@ -31,7 +28,6 @@ def test_enter_marks(seeded_school, row):
         assert (e.grade, e.grade_points) == (row["expected_grade"], float(row["expected_points"]))
 
 
-@pytest.mark.grading
 @pytest.mark.parametrize("row", cases("gpa_cases.csv"))
 def test_gpa(row):
     # "marks" and "credits" are ";"-separated lists of equal length; "-" means marks not entered

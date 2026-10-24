@@ -1,19 +1,7 @@
-"""Shared fixtures, and the execution order of test groups."""
+"""Shared fixtures."""
 import pytest
 
 from sms.school import School
-
-# Groups run in this order, modules low-level first; inside that, tests run in the order they are written.
-GROUP_ORDER = ["smoke", "unit", "negative", "data_driven"]
-MODULE_ORDER = ["grading", "models", "school"]
-
-
-def rank(item, names):
-    return next((i for i, name in enumerate(names) if item.get_closest_marker(name)), len(names))
-
-
-def pytest_collection_modifyitems(items):
-    items.sort(key=lambda item: (rank(item, GROUP_ORDER), rank(item, MODULE_ORDER)))
 
 
 @pytest.fixture
