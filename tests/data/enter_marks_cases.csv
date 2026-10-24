@@ -1,0 +1,13 @@
+tc_id,technique,description,roll_no,code,marks,expected_grade,expected_points,expected_error
+TC-DD-01,BVA,Lowest valid marks,CS-001,CS101,0,F,0.0,
+TC-DD-02,BVA,Just below the D boundary,CS-001,CS101,49.99,F,0.0,
+TC-DD-03,BVA,On the D boundary,CS-001,CS101,50,D,1.0,
+TC-DD-04,ECP,Nominal C+ marks,CS-001,CS101,62,C+,2.3,
+TC-DD-05,BVA,Just below the A boundary,CS-001,CS101,84.99,A-,3.7,
+TC-DD-06,BVA,On the A boundary,CS-001,CS101,85,A,4.0,
+TC-DD-07,BVA,Highest valid marks,CS-001,CS101,100,A,4.0,
+TC-DD-08,BVA,Just below zero,CS-001,CS101,-0.01,,,ValueError
+TC-DD-09,BVA,Just above 100,CS-001,CS101,100.01,,,ValueError
+TC-DD-10,ECP,Far out of range,CS-001,CS101,250,,,ValueError
+TC-DD-11,ECP,Unknown student,CS-999,CS101,75,,,KeyError
+TC-DD-12,ECP,Course the student is not enrolled in,CS-001,AI201,75,,,KeyError

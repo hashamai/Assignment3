@@ -1,0 +1,11 @@
+tc_id,technique,description,marks,credits,expected_gpa
+TC-GPA-01,ECP,No courses,,,0.0
+TC-GPA-02,ECP,One A course,90,3,4.0
+TC-GPA-03,BVA,All courses F (minimum GPA),10;49.99,3;4,0.0
+TC-GPA-04,BVA,All courses on the A boundary (maximum GPA),85;100,3;4,4.0
+TC-GPA-05,ECP,Weighted by credit hours,90;72,3;2,3.6
+TC-GPA-06,ECP,Weighted with an F,90;72;49,3;2;4,2.0
+TC-GPA-07,ECP,Result rounded to 2 decimals (12/7),90;49,3;4,1.71
+TC-GPA-08,ECP,Ungraded course ignored,90;-,3;4,4.0
+TC-GPA-09,ECP,All courses ungraded,-;-,3;2,0.0
+TC-GPA-10,BVA,Lower boundaries of A / A- / B+,85;80;75,1;1;1,3.67
