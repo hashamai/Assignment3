@@ -1,11 +1,15 @@
-tc_id,technique,description,marks,credits,expected_gpa
-TC-GPA-01,ECP,No courses,,,0.0
-TC-GPA-02,ECP,One A course,90,3,4.0
-TC-GPA-03,BVA,All courses F (minimum GPA),10;49.99,3;4,0.0
-TC-GPA-04,BVA,All courses on the A boundary (maximum GPA),85;100,3;4,4.0
-TC-GPA-05,ECP,Weighted by credit hours,90;72,3;2,3.6
-TC-GPA-06,ECP,Weighted with an F,90;72;49,3;2;4,2.0
-TC-GPA-07,ECP,Result rounded to 2 decimals (12/7),90;49,3;4,1.71
-TC-GPA-08,ECP,Ungraded course ignored,90;-,3;4,4.0
-TC-GPA-09,ECP,All courses ungraded,-;-,3;2,0.0
-TC-GPA-10,BVA,Lower boundaries of A / A- / B+,85;80;75,1;1;1,3.67
+tc_id,description,marks_1,credits_1,marks_2,credits_2,expected_gpa
+TC-GPA-01,Both courses A: (4.0x3 + 4.0x3) / 6,90,3,95,3,4.0
+TC-GPA-02,Both courses F: (0x3 + 0x3) / 6,30,3,45,3,0.0
+TC-GPA-03,A and B with different credits: (4.0x3 + 3.0x2) / 5,90,3,72,2,3.6
+TC-GPA-04,A and F rounded to 2 decimals: (4.0x3 + 0x4) / 7 = 1.714,90,3,40,4,1.71
+TC-GPA-05,Boundary marks A and A-: (4.0x3 + 3.7x3) / 6,85,3,84.99,3,3.85
+TC-GPA-06,A- and B+: (3.7x3 + 3.3x3) / 6,82,3,77,3,3.5
+TC-GPA-07,B and B-: (3.0x2 + 2.7x2) / 4,72,2,67,2,2.85
+TC-GPA-08,C+ and C: (2.3x3 + 2.0x2) / 5,62,3,57,2,2.18
+TC-GPA-09,Boundary marks D and F: (1.0x3 + 0x3) / 6,50,3,49.99,3,0.5
+TC-GPA-10,C and D rounded to 2 decimals: (2.0x2 + 1.0x4) / 6 = 1.333,55,2,52,4,1.33
+TC-GPA-11,Highest and lowest marks: (4.0x3 + 0x3) / 6,100,3,0,3,2.0
+TC-GPA-12,Course with more credits counts more: (4.0x1 + 0x5) / 6 = 0.667,90,1,40,5,0.67
+TC-GPA-13,Second course has no marks yet so it is ignored: (4.0x3) / 3,90,3,none,4,4.0
+TC-GPA-14,No marks entered for either course,none,3,none,2,0.0

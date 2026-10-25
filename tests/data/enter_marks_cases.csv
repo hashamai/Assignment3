@@ -1,13 +1,37 @@
-tc_id,technique,description,roll_no,code,marks,expected_grade,expected_points,expected_error
-TC-DD-01,BVA,Lowest valid marks,CS-001,CS101,0,F,0.0,
-TC-DD-02,BVA,Just below the D boundary,CS-001,CS101,49.99,F,0.0,
-TC-DD-03,BVA,On the D boundary,CS-001,CS101,50,D,1.0,
-TC-DD-04,ECP,Nominal C+ marks,CS-001,CS101,62,C+,2.3,
-TC-DD-05,BVA,Just below the A boundary,CS-001,CS101,84.99,A-,3.7,
-TC-DD-06,BVA,On the A boundary,CS-001,CS101,85,A,4.0,
-TC-DD-07,BVA,Highest valid marks,CS-001,CS101,100,A,4.0,
-TC-DD-08,BVA,Just below zero,CS-001,CS101,-0.01,,,ValueError
-TC-DD-09,BVA,Just above 100,CS-001,CS101,100.01,,,ValueError
-TC-DD-10,ECP,Far out of range,CS-001,CS101,250,,,ValueError
-TC-DD-11,ECP,Unknown student,CS-999,CS101,75,,,KeyError
-TC-DD-12,ECP,Course the student is not enrolled in,CS-001,AI201,75,,,KeyError
+tc_id,description,roll_no,course_code,marks,expected
+TC-EM-01,Highest possible marks,CS-001,CS101,100,A
+TC-EM-02,Middle of the A band,CS-001,CS101,92,A
+TC-EM-03,Lowest marks for A,CS-001,CS101,85,A
+TC-EM-04,Just below the A boundary,CS-001,CS101,84.99,A-
+TC-EM-05,Middle of the A- band,CS-001,CS101,82,A-
+TC-EM-06,Lowest marks for A-,CS-001,CS101,80,A-
+TC-EM-07,Just below the A- boundary,CS-001,CS101,79.99,B+
+TC-EM-08,Middle of the B+ band,CS-001,CS101,77,B+
+TC-EM-09,Lowest marks for B+,CS-001,CS101,75,B+
+TC-EM-10,Just below the B+ boundary,CS-001,CS101,74.99,B
+TC-EM-11,Middle of the B band,CS-001,CS101,72,B
+TC-EM-12,Lowest marks for B,CS-001,CS101,70,B
+TC-EM-13,Just below the B boundary,CS-001,CS101,69.99,B-
+TC-EM-14,Middle of the B- band,CS-001,CS101,67,B-
+TC-EM-15,Lowest marks for B-,CS-001,CS101,65,B-
+TC-EM-16,Just below the B- boundary,CS-001,CS101,64.99,C+
+TC-EM-17,Middle of the C+ band,CS-001,CS101,62,C+
+TC-EM-18,Lowest marks for C+,CS-001,CS101,60,C+
+TC-EM-19,Just below the C+ boundary,CS-001,CS101,59.99,C
+TC-EM-20,Middle of the C band,CS-001,CS101,57,C
+TC-EM-21,Lowest marks for C,CS-001,CS101,55,C
+TC-EM-22,Just below the C boundary,CS-001,CS101,54.99,D
+TC-EM-23,Middle of the D band,CS-001,CS101,52,D
+TC-EM-24,Lowest marks for D (pass mark),CS-001,CS101,50,D
+TC-EM-25,Just below the pass mark,CS-001,CS101,49.99,F
+TC-EM-26,Middle of the F band,CS-001,CS101,25,F
+TC-EM-27,Lowest possible marks,CS-001,CS101,0,F
+TC-EM-28,First marks for a course that had no marks yet,CS-001,EN101,81,A-
+TC-EM-29,Just below 0,CS-001,CS101,-0.01,ValueError
+TC-EM-30,Negative marks,CS-001,CS101,-10,ValueError
+TC-EM-31,Just above 100,CS-001,CS101,100.01,ValueError
+TC-EM-32,Far above 100,CS-001,CS101,150,ValueError
+TC-EM-33,Student does not exist,CS-999,CS101,75,KeyError
+TC-EM-34,Roll no in lowercase,cs-001,CS101,75,KeyError
+TC-EM-35,Course code in lowercase,CS-001,cs101,75,KeyError
+TC-EM-36,Student is not enrolled in the course,CS-001,AI201,75,KeyError

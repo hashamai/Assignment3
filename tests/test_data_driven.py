@@ -31,36 +31,36 @@ def get_case_id(row):
 @pytest.mark.parametrize("row", read_csv("enter_marks_cases.csv"), ids=get_case_id)
 def test_enter_marks(seeded_school, row):
     roll_no = row["roll_no"]
-    code = row["code"]
+    code = row["course_code"]
     marks = float(row["marks"])
+    expected = row["expected"]  # a grade such as "A", or the error the code must raise
 
-    if row["expected_error"] == "ValueError":
+    if expected == "ValueError":
         with pytest.raises(ValueError):
             seeded_school.enter_marks(roll_no, code, marks)
 
-    elif row["expected_error"] == "KeyError":
+    elif expected == "KeyError":
         with pytest.raises(KeyError):
             seeded_school.enter_marks(roll_no, code, marks)
 
     else:
         seeded_school.enter_marks(roll_no, code, marks)
         enrollment = seeded_school.student(roll_no).enrollment(code)
-        assert enrollment.grade == row["expected_grade"]
-        assert enrollment.grade_points == float(row["expected_points"])
+        assert enrollment.grade == expected
+
+
+def read_marks(text):
+    """'none' in the CSV means the marks are not entered yet."""
+    if text == "none":
+        return None
+    return float(text)
 
 
 @pytest.mark.parametrize("row", read_csv("gpa_cases.csv"), ids=get_case_id)
 def test_gpa(row):
-    enrollments = []
-    if row["marks"] != "":
-        marks_list = row["marks"].split(";")
-        credits_list = row["credits"].split(";")
-        for i in range(len(marks_list)):
-            course = Course("X", "Test Course", int(credits_list[i]))
-            if marks_list[i] == "-":
-                marks = None
-            else:
-                marks = float(marks_list[i])
-            enrollments.append(Enrollment(course, 1, marks))
+    course_1 = Course("C1", "Course 1", int(row["credits_1"]))
+    course_2 = Course("C2", "Course 2", int(row["credits_2"]))
+    enrollment_1 = Enrollment(course_1, 1, read_marks(row["marks_1"]))
+    enrollment_2 = Enrollment(course_2, 1, read_marks(row["marks_2"]))
 
-    assert calculate_gpa(enrollments) == float(row["expected_gpa"])
+    assert calculate_gpa([enrollment_1, enrollment_2]) == float(row["expected_gpa"])

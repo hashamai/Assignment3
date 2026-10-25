@@ -53,10 +53,10 @@ Run only the tests whose name contains a word, for example `enter_marks`:
 .venv/bin/pytest -k enter_marks
 ```
 
-Run one test case from the CSV file, for example `TC-DD-08`:
+Run one test case from the CSV file, for example `TC-EM-08`:
 
 ```bash
-.venv/bin/pytest -k TC-DD-08
+.venv/bin/pytest -k TC-EM-08
 ```
 
 
@@ -117,4 +117,4 @@ Note: in a parallel run (`-n auto`), several files run at the same time, so this
 
 `test_data_driven.py` reads its inputs from the CSV files in `data/`, and each row is one test case. To add a new test case, add a new row to the CSV file; you don't need to change any code.
 
-The `tc_id` column (for example `TC-DD-01`) becomes the test's name, so you can match a result to its row in `test_cases.xlsx`.
+The `tc_id` column (for example `TC-EM-01`) becomes the test's name, so you can match a result to its row in `test_cases.xlsx`.
