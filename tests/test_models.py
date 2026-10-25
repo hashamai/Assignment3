@@ -19,6 +19,8 @@ def new_student():
 
 
 
+@pytest.mark.smoke
+@pytest.mark.order(3)
 def test_enrollment_grade_with_marks():
     enrollment = Enrollment(CS101, 1, 90)
     assert enrollment.grade == "A"
@@ -58,6 +60,8 @@ def test_enrollment_grade_changes_when_marks_change():
 
 
 #student serach function work adn return the righ object 
+@pytest.mark.smoke
+@pytest.mark.order(4)
 def test_student_enrollment_found(ali):
     enrollment = ali.enrollment("CS101")
     assert enrollment.course.code == "CS101"
@@ -67,22 +71,27 @@ def test_student_enrollment_found(ali):
 
 #test pass when it raise an error
 @pytest.mark.parametrize("code", ["AI201", "cs101", ""])
+@pytest.mark.negative
 def test_student_enrollment_unknown_code(ali, code):
     with pytest.raises(KeyError):
         ali.enrollment(code)
 
 
+@pytest.mark.negative
 def test_student_enrollment_student_without_courses(new_student):
     with pytest.raises(KeyError):
         new_student.enrollment("CS101")
 
 
+@pytest.mark.negative
 def test_student_enrollment_error_message(ali):
     with pytest.raises(KeyError, match="Ali Khan is not enrolled in AI201"):
         ali.enrollment("AI201")
 
 
 
+@pytest.mark.smoke
+@pytest.mark.order(5)
 def test_student_semesters(ali):
     assert ali.semesters() == [1, 2]
 
@@ -116,6 +125,8 @@ def test_student_semesters_keeps_gaps(seeded_school, ali):
 
 
 
+@pytest.mark.smoke
+@pytest.mark.order(6)
 def test_student_gpa_two_courses(ali):
     assert ali.gpa(["CS101", "MA101"]) == 3.6
 
@@ -134,12 +145,15 @@ def test_student_gpa_selected_courses(ali, codes, expected):
     ["CS101", "AI201"], 
     ["cs101"],           
 ])
+@pytest.mark.negative
 def test_student_gpa_unknown_code(ali, codes):
     with pytest.raises(KeyError):
         ali.gpa(codes)
 
 
 
+@pytest.mark.smoke
+@pytest.mark.order(7)
 def test_student_semester_gpa_semester_1(ali):
     assert ali.semester_gpa(1) == 3.6
 
@@ -155,12 +169,15 @@ def test_student_semester_gpa_only_courses_without_marks(seeded_school, ali):
 
 
 @pytest.mark.parametrize("semester", [0, -1, 3])
+@pytest.mark.negative
 def test_student_semester_gpa_semester_without_courses(ali, semester):
     with pytest.raises(KeyError):
         ali.semester_gpa(semester)
 
 
 
+@pytest.mark.smoke
+@pytest.mark.order(8)
 def test_student_cgpa(ali):
     assert ali.cgpa() == 2.0
 

@@ -14,6 +14,8 @@ def make_enrollment(marks, credits=3):
 
 
 #smoke test to ensure thast teh software is able to run test
+@pytest.mark.smoke
+@pytest.mark.order(1)
 def test_calculate_grade_90_is_A():
     assert calculate_grade(90) == ("A", 4.0)
 
@@ -58,16 +60,20 @@ def test_calculate_grade_int_and_float_give_same_result():
     assert calculate_grade(70) == calculate_grade(70.0)
 
 
+@pytest.mark.negative
 def test_calculate_grade_below_zero_returns_none():
     assert calculate_grade(-1) is None
 
 
 #negative test 
+@pytest.mark.negative
 def test_calculate_grade_above_100_still_gives_A():
     assert calculate_grade(150) == ("A", 4.0)
 
 
 
+@pytest.mark.smoke
+@pytest.mark.order(2)
 def test_calculate_gpa_one_course():
     assert calculate_gpa([make_enrollment(90)]) == 4.0
 
