@@ -2,14 +2,12 @@
 import pytest
 
 
-# the sample school plus one extra course, AI201, that CS-001 is not enrolled in
 @pytest.fixture
 def school_with_ai(seeded_school):
     seeded_school.add_course("AI201", "Artificial Intelligence", 3)
     return seeded_school
 
 
-# ---------- add_student ----------
 
 def test_add_student(school):
     school.add_student("CS-001", "Ali Khan", "BSCS")
@@ -38,10 +36,10 @@ def test_add_student_roll_no_is_case_sensitive(school):
 
 
 @pytest.mark.parametrize("roll_no, name", [
-    ("", "Ali"),       # empty roll no
-    ("CS-001", ""),    # empty name
-    (None, "Ali"),     # no roll no
-    ("CS-001", None),  # no name
+    ("", "Ali"),      
+    ("CS-001", ""),   
+    (None, "Ali"),    
+    ("CS-001", None), 
 ])
 def test_add_student_missing_roll_no_or_name(school, roll_no, name):
     with pytest.raises(ValueError):
@@ -56,7 +54,6 @@ def test_add_student_duplicate_roll_no(seeded_school):
     assert seeded_school.student("CS-001").name == "Ali Khan"
 
 
-# ---------- add_course ----------
 
 def test_add_course(school):
     school.add_course("CS101", "Programming", 3)
@@ -95,7 +92,6 @@ def test_add_course_duplicate_code(seeded_school):
     assert seeded_school.course("CS101").title == "Programming"
 
 
-# ---------- enroll ----------
 
 def test_enroll(school_with_ai):
     school_with_ai.enroll("CS-001", "AI201", 3)
@@ -115,7 +111,6 @@ def test_enroll_valid_semester(school_with_ai, semester):
 def test_enroll_invalid_semester(school_with_ai, semester):
     with pytest.raises(ValueError):
         school_with_ai.enroll("CS-001", "AI201", semester)
-    # the student is not enrolled
     assert "AI201" not in school_with_ai.student("CS-001").enrollments
 
 
@@ -132,11 +127,9 @@ def test_enroll_unknown_course(school_with_ai):
 def test_enroll_already_enrolled(seeded_school):
     with pytest.raises(ValueError):
         seeded_school.enroll("CS-001", "CS101", 2)
-    # the first enrollment is not replaced
     assert seeded_school.student("CS-001").enrollment("CS101").semester == 1
 
 
-# ---------- enter_marks ----------
 
 def test_enter_marks(seeded_school):
     seeded_school.enter_marks("CS-001", "EN101", 81)
@@ -173,12 +166,10 @@ def test_enter_marks_course_not_enrolled(seeded_school):
 
 
 def test_enter_marks_range_is_checked_first(seeded_school):
-    # bad marks AND unknown student: the marks error comes first (TEST_PLAN observation 4)
     with pytest.raises(ValueError):
         seeded_school.enter_marks("CS-999", "CS101", 101)
 
 
-# ---------- student and course lookups ----------
 
 def test_student_lookup(seeded_school):
     assert seeded_school.student("CS-001").name == "Ali Khan"
@@ -198,14 +189,12 @@ def test_course_lookup_new_course(school):
     assert school.course("AI201").credit_hours == 3
 
 
-# missing, wrong case, empty
 @pytest.mark.parametrize("roll_no", ["CS-999", "cs-001", ""])
 def test_student_lookup_not_found(seeded_school, roll_no):
     with pytest.raises(KeyError):
         seeded_school.student(roll_no)
 
 
-# missing, wrong case, empty
 @pytest.mark.parametrize("code", ["XX999", "cs101", ""])
 def test_course_lookup_not_found(seeded_school, code):
     with pytest.raises(KeyError):

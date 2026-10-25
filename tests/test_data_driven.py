@@ -27,7 +27,6 @@ def get_case_id(row):
     return row["tc_id"]
 
 
-# ---------- School.enter_marks, cases from data/enter_marks_cases.csv ----------
 
 @pytest.mark.parametrize("row", read_csv("enter_marks_cases.csv"), ids=get_case_id)
 def test_enter_marks(seeded_school, row):
@@ -49,10 +48,6 @@ def test_enter_marks(seeded_school, row):
         assert enrollment.grade == row["expected_grade"]
         assert enrollment.grade_points == float(row["expected_points"])
 
-
-# ---------- calculate_gpa, cases from data/gpa_cases.csv ----------
-# "marks" and "credits" hold one value per course, separated by ";"
-# a "-" in marks means the marks are not entered yet
 
 @pytest.mark.parametrize("row", read_csv("gpa_cases.csv"), ids=get_case_id)
 def test_gpa(row):

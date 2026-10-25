@@ -18,7 +18,6 @@ def new_student():
     return Student("CS-002", "Sara Ahmed", "BSCS")
 
 
-# ---------- Enrollment.grade and Enrollment.grade_points ----------
 
 def test_enrollment_grade_with_marks():
     enrollment = Enrollment(CS101, 1, 90)
@@ -32,9 +31,8 @@ def test_enrollment_grade_without_marks_is_none():
     assert enrollment.grade is None
     assert enrollment.grade_points is None
 
-
+#check that 0 is treated as a real mark not a false
 def test_enrollment_zero_marks_is_F_not_none():
-    # 0 counts as "false" in Python, but it is a real mark
     enrollment = Enrollment(CS101, 1, 0)
     assert enrollment.grade == "F"
     assert enrollment.grade_points == 0.0
@@ -51,15 +49,15 @@ def test_enrollment_grade_boundaries(marks, grade, points):
     assert enrollment.grade == grade
     assert enrollment.grade_points == points
 
-
+#check that updating marks reflect
 def test_enrollment_grade_changes_when_marks_change():
     enrollment = Enrollment(CS101, 1, 40)
     enrollment.marks = 80
     assert enrollment.grade == "A-"
 
 
-# ---------- Student.enrollment ----------
 
+#student serach function work adn return the righ object 
 def test_student_enrollment_found(ali):
     enrollment = ali.enrollment("CS101")
     assert enrollment.course.code == "CS101"
@@ -67,7 +65,7 @@ def test_student_enrollment_found(ali):
     assert enrollment.marks == 90
 
 
-# not enrolled, wrong case, empty code
+#test pass when it raise an error
 @pytest.mark.parametrize("code", ["AI201", "cs101", ""])
 def test_student_enrollment_unknown_code(ali, code):
     with pytest.raises(KeyError):
@@ -84,7 +82,6 @@ def test_student_enrollment_error_message(ali):
         ali.enrollment("AI201")
 
 
-# ---------- Student.semesters ----------
 
 def test_student_semesters(ali):
     assert ali.semesters() == [1, 2]
@@ -118,40 +115,36 @@ def test_student_semesters_keeps_gaps(seeded_school, ali):
     assert ali.semesters() == [1, 2, 4]
 
 
-# ---------- Student.gpa ----------
 
 def test_student_gpa_two_courses(ali):
-    # (4.0 * 3 + 3.0 * 2) / 5 = 3.6
     assert ali.gpa(["CS101", "MA101"]) == 3.6
 
 
 @pytest.mark.parametrize("codes, expected", [
-    (["CS101"], 4.0),            # one course
-    (["CS101", "CS201"], 1.71),  # with an F, rounded: 12 / 7
-    ([], 0.0),                   # no courses
-    (["EN101"], 0.0),            # course without marks
+    (["CS101"], 4.0),           
+    (["CS101", "CS201"], 1.71), 
+    ([], 0.0),                  
+    (["EN101"], 0.0),           
 ])
 def test_student_gpa_selected_courses(ali, codes, expected):
     assert ali.gpa(codes) == expected
 
 
 @pytest.mark.parametrize("codes", [
-    ["CS101", "AI201"],  # AI201 is not enrolled
-    ["cs101"],           # wrong case
+    ["CS101", "AI201"], 
+    ["cs101"],           
 ])
 def test_student_gpa_unknown_code(ali, codes):
     with pytest.raises(KeyError):
         ali.gpa(codes)
 
 
-# ---------- Student.semester_gpa ----------
 
 def test_student_semester_gpa_semester_1(ali):
     assert ali.semester_gpa(1) == 3.6
 
 
 def test_student_semester_gpa_with_F_and_no_marks(ali):
-    # semester 2: CS201 is an F, EN101 has no marks yet
     assert ali.semester_gpa(2) == 0.0
 
 
@@ -167,10 +160,8 @@ def test_student_semester_gpa_semester_without_courses(ali, semester):
         ali.semester_gpa(semester)
 
 
-# ---------- Student.cgpa ----------
 
 def test_student_cgpa(ali):
-    # (4.0 * 3 + 3.0 * 2 + 0.0 * 4) / 9 = 2.0
     assert ali.cgpa() == 2.0
 
 
@@ -186,12 +177,10 @@ def test_student_cgpa_no_marks_entered(school):
 
 
 def test_student_cgpa_after_new_marks(seeded_school, ali):
-    # EN101 gets an A: (18 + 4.0 * 2) / 11 = 2.36
     seeded_school.enter_marks("CS-001", "EN101", 90)
     assert ali.cgpa() == 2.36
 
 
 def test_student_cgpa_after_marks_changed(seeded_school, ali):
-    # CS201 changes from F to A: (18 + 4.0 * 4) / 9 = 3.78
     seeded_school.enter_marks("CS-001", "CS201", 85)
     assert ali.cgpa() == 3.78

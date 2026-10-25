@@ -8,16 +8,17 @@ from sms.models import Course, Enrollment
 def make_enrollment(marks, credits=3):
     """Helper: an enrollment in a test course with the given marks and credit hours."""
     course = Course("X", "Test Course", credits)
+    #return enrollment object for test
     return Enrollment(course, 1, marks)
 
 
-# ---------- calculate_grade ----------
 
+#smoke test to ensure thast teh software is able to run test
 def test_calculate_grade_90_is_A():
     assert calculate_grade(90) == ("A", 4.0)
 
 
-# ECP: one value from inside each grade band
+# ECP on marks 
 @pytest.mark.parametrize("marks, letter, points", [
     (92, "A", 4.0),
     (82, "A-", 3.7),
@@ -33,7 +34,7 @@ def test_calculate_grade_each_band(marks, letter, points):
     assert calculate_grade(marks) == (letter, points)
 
 
-# BVA: the lowest marks of each band, and the marks just below it
+# BVA on marks 
 @pytest.mark.parametrize("marks, expected_letter", [
     (100, "A"),
     (85, "A"), (84.99, "A-"),
@@ -51,20 +52,21 @@ def test_calculate_grade_boundaries(marks, expected_letter):
     assert letter == expected_letter
 
 
+
+#test on the basic of experience 
 def test_calculate_grade_int_and_float_give_same_result():
     assert calculate_grade(70) == calculate_grade(70.0)
 
 
 def test_calculate_grade_below_zero_returns_none():
-    # calculate_grade does not check the range; School.enter_marks does (TEST_PLAN observation 1)
     assert calculate_grade(-1) is None
 
 
+#negative test 
 def test_calculate_grade_above_100_still_gives_A():
     assert calculate_grade(150) == ("A", 4.0)
 
 
-# ---------- calculate_gpa ----------
 
 def test_calculate_gpa_one_course():
     assert calculate_gpa([make_enrollment(90)]) == 4.0
